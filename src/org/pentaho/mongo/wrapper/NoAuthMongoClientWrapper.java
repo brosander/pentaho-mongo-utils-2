@@ -31,6 +31,7 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ReplicaSetStatus;
 import com.mongodb.ServerAddress;
+
 import org.pentaho.mongo.BaseMessages;
 import org.pentaho.mongo.MongoDbException;
 import org.pentaho.mongo.MongoProp;
@@ -509,5 +510,10 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
 
   @Override public ReplicaSetStatus getReplicaSetStatus() {
     return getMongo().getReplicaSetStatus();
+  }
+
+  @Override
+  public <ReturnType> ReturnType perform( String db, MongoDBAction<ReturnType> action ) throws MongoDbException {
+    return action.perform( getDb( db ) );
   }
 }
